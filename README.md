@@ -3,6 +3,8 @@
 
 This repository contains the final project assessment report from the **Acmegrade Internship, May 2024**. The project successfully demonstrated a controlled penetration test scenario to exploit a vulnerable Windows 7 machine using the *Metasploit Framework*.
 
+---
+
 ## 🎯 Project Aim
 
 The primary objective of this project was to gain remote access to a **Windows 7** machine (victim) from a **Kali Linux** machine (attacker) by leveraging the **Metasploit Framework** and a **Meterpreter** payload.
