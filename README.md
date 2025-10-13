@@ -9,6 +9,8 @@ This repository contains the final project assessment report from the **Acmegrad
 
 The primary objective of this project was to gain remote access to a **Windows 7** machine (victim) from a **Kali Linux** machine (attacker) by leveraging the **Metasploit Framework** and a **Meterpreter** payload.
 
+---
+
 ## 🛠️ Tools and Technologies Used
 
 | Category | Tool/Technology | Role in Project |
